@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
 
-class UserController extends Controller
+class UserApiController extends Controller
 {
     public function createUser(Request $request): JsonResponse
     {
@@ -42,13 +42,29 @@ class UserController extends Controller
         return response()->json($users->toArray());
     }
 
-    public function destroyUser($id): JsonResponse
+    public function destroyUser(User $user): JsonResponse
     {
-        $user = User::find($id);
         $user->delete();
-
         return response()->json(['mensagem' => 'Usuário deletado com sucesso.']);
     }
 
+    public function updateUser(Request $request, User $user): JsonResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required',
+            'password' => 'required|string|min:6'
+        ]);
+
+        $user = $user->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password'])
+        ]);
+        return response()->json([
+            'mensagem' => 'Usuário Atualizado com sucesso',
+            'user' => $user
+        ]);
+    }
 
 }
