@@ -52,7 +52,7 @@
     @endif
 </header>
 <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
-    <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
+    <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row justify-center">
 
             @csrf
         <div class="text-[16px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-bl-lg rounded-br-lg lg:rounded-tl-lg lg:rounded-br-none">
@@ -60,7 +60,16 @@
             <table class="w-full border-collapse rounded-lg overflow ">
                 <thead>
                     <tr class="bg-gray-100 dark:bg-[#1f1f1f] ">
-                        <th class="text-center px-10 py-3 font-medium text-gray-700 dark:text-gray-300 border-b border-gray-300 dark:border-gray-700">Nome</th>
+                        <form method="POST" action="{{ route('search') }}" class="mb-4 flex">
+                            @csrf
+                            <input type="text" name="search" placeholder="Buscar usuário..." value="{{ request('search') }}"
+                                   class="px-4 py-2 border rounded-md dark:bg-[#1a1a18] dark:text-white" />
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md">Buscar</button>
+                        </form>
+                        <th class="text-center px-30 py-3 font-medium text-gray-700 dark:text-gray-300 border-b border-gray-300 dark:border-gray-700">Nome
+
+                        </th>
+
                         <th class="text-center px-10 py-3 font-medium text-gray-700 dark:text-gray-300 border-b border-gray-300 dark:border-gray-700">Email</th>
                         <th class="text-center px-10 py-3 font-medium text-gray-700 dark:text-gray-300 border-b border-gray-300 dark:border-gray-700">Status</th>
                         <th class="text-center px-10 py-3 font-medium text-gray-700 dark:text-gray-300 border-b border-gray-300 dark:border-gray-700">Opções</th>
@@ -72,6 +81,7 @@
                             <td class="text-center px-10 py-3 font-medium text-gray-700 dark:text-gray-300 border-b border-gray-300 dark:border-gray-700">
                                     {{ $user->name }}
                             </td>
+
                             <td class="text-center px-10 py-3 font-medium text-gray-700 dark:text-gray-300 border-b border-gray-300 dark:border-gray-700">
                                     {{ $user->email }}
                             </td>

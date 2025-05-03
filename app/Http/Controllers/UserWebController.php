@@ -29,7 +29,7 @@ class UserWebController extends Controller
 
     public function getAllUsers(): object
     {
-        $users = User::paginate(10);
+        $users = User::paginate(20);
         return view('user.users',compact('users'));
     }
 
@@ -81,7 +81,16 @@ class UserWebController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('user.users', $user)->with('success', 'Usuário atualizado com sucesso!');
+        return redirect()->route('user.users');
     }
 
+    public function search(Request $request)
+    {
+        $search = $request->get('search');
+        $users = User::query()
+            ->where('name', 'LIKE', "%{$search}%")
+            ->paginate(20);
+
+        return view('user.users', compact('users'));
+    }
 }
